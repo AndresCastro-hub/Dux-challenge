@@ -14,3 +14,7 @@ body{
 .bg-sidebar{
     background-color: #2D3E50;
 }
+
+.text-primary{
+    color: var(--primary-color)
+}

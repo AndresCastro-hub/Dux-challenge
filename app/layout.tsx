@@ -8,6 +8,7 @@ import 'primeflex/primeflex.css';
 import type { Metadata } from "next";
 import Navbar from './client/components/Navbar/NavBar';
 import Sidebar from './client/components/SideBar/Sidebar';
+import { GlobalContextProvider } from './client/context/store';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,7 +28,7 @@ export default function RootLayout({
           <div className="sm:col-1 hidden sm:block md:col-1">
             <Sidebar />
           </div>
-         {children}
+         <GlobalContextProvider>{children}</GlobalContextProvider>
         </div>
       </body>
     </html>
