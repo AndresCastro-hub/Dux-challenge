@@ -8,7 +8,7 @@ interface HeaderModalProps {
 
 const HeaderModal = ({ setOpenModal, setEsEdicion }: HeaderModalProps) => {
     return (
-        <div className="primary flex justify-content-between align-items-center p-2 border-round" style={{ color: 'white', height: '55px' }}>
+        <div className="primary flex justify-content-between align-items-center p-2 border-round text-white mb-3" >
             <h3 className="m-0">Usuario</h3>
             <div className="flex align-items-center">
                 <Button icon="pi pi-cog" className="p-button-text text-white" />
