@@ -1,0 +1,16 @@
+:root{
+    --primary-color: #0763E7;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.primary{
+    background-color: var(--primary-color);
+}
+
+.bg-sidebar{
+    background-color: #2D3E50;
+}
