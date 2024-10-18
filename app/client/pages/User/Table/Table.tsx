@@ -14,7 +14,7 @@ import UserItem from './UserItem';
 const Table = () => {
     const [pageActual, setPageActual] = useState<number>(1);
     const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-    const [selectedUsuario, setSelectedUsuario] = useState<Usuario>();
+    const [selectedUsuario, setSelectedUsuario] = useState<Usuario>({id: '', sector: 0, usuario:'', estado:''});
 
     const { filters, openModalUsuario, setOpenModalUsuario, setEsEdicion, esEdicion } = useGlobalContext();
     const { data, loading } = useGetUsers(`https://staging.duxsoftware.com.ar/api/personal?sector=1000&_limit=${rowsPerPage}&_page=${pageActual}`);
@@ -61,11 +61,10 @@ const Table = () => {
                 />
             </div>
 
-            <CustomModal<Usuario>
-                modalProps={setEsEdicion}
-                ContentComponent={AddUser}
-                contentProps={{ usuario: selectedUsuario }}
+            <CustomModal
+                usuario = {selectedUsuario}
                 openModal={openModalUsuario}
+                modalProps={setEsEdicion}
                 setOpenModal={setOpenModalUsuario}
             />
         </>

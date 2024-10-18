@@ -2,18 +2,17 @@
 
 import { Dialog } from 'primereact/dialog';
 import HeaderModal from './HeaderModal';
+import AddUser from '../../pages/User/FormUser/AddUser';
+import { Usuario } from '../../types';
 
-interface CustomModalProps<T>{
-    ContentComponent: React.ComponentType<T>
-    contentProps?: any,
+interface CustomModalProps{
     modalProps?:any
     openModal: boolean,
     setOpenModal: (param: boolean) => void;
-    
-
+    usuario: Usuario
 }
 
-const CustomModal = <T,>({ ContentComponent, contentProps, openModal, setOpenModal, modalProps }: CustomModalProps<T>) => {
+const CustomModal = <T,>({ openModal, setOpenModal, modalProps, usuario }: CustomModalProps) => {
 
     const headerStyle = {margin:0, padding:0, height:'20%', width: '100%'}
     
@@ -28,11 +27,10 @@ const CustomModal = <T,>({ ContentComponent, contentProps, openModal, setOpenMod
                 className='w-6'
                 onHide={() => setOpenModal(false)}
             >
-                <ContentComponent {...contentProps} />
+                <AddUser usuario={usuario} />
             </Dialog>
         </div>
     )
-
 }
 
 export default CustomModal;

@@ -4,68 +4,91 @@ import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import useCreateUser from '@/app/client/hooks/useCreateUser';
 import { useGlobalContext } from '@/app/client/context/store';
+import { estadosTable, sectores } from '@/app/client/constants/dataConstants';
 import { Usuario } from '@/app/client/types';
 
-interface User {
-    id: string;
-    nombre: string;
-    estado: string;
-    sector: string;
-}
+const AddUser = ({usuario}: {usuario: Usuario})   =>  {
 
-const AddUser = ({usuario}: Usuario)   =>  {
+
 
     const { setOpenModalUsuario, setEsEdicion, esEdicion } = useGlobalContext();
     const [habilitarConfirmar, setHabilitarConfirmar] = useState<boolean>(false);
-
-    console.log(esEdicion)
-
-
-    const [formData, setFormData] = useState<User>({
-        id: '',
-        nombre: '',
-        estado: '',
-        sector: ''
-    });
-
     const { createUser, loading, error } = useCreateUser();
 
-    const estados = [
-        { label: 'Activo', value: 'activo' },
-        { label: 'Inactivo', value: 'inactivo' }
-    ];
 
-    const sectores = [
-        { label: 'Tecnología', value: 'tecnologia' },
-        { label: 'Finanzas', value: 'finanzas' },
-        { label: 'Salud', value: 'salud' },
-        { label: 'Educación', value: 'educacion' }
-    ];
-
+    const [formData, setFormData] = useState<Usuario>({
+        id: '',
+        usuario: '',
+        estado: '',
+        sector: 0
+    });
+ 
     const [errors, setErrors] = useState({
         id: '',
-        nombre: ''
+        usuario: '',
+        sector:'',
+        estado:''
     });
+
+    useEffect(() => {
+        if(esEdicion){
+            setFormData({
+                id: usuario.id,
+                usuario: usuario.usuario,
+                estado: usuario.estado,
+                sector: usuario.sector
+            })
+        }
+    },[esEdicion])
+
+
+    useEffect(() => {
+
+        const existieronCambios = () => {
+            return (
+              formData.id !== usuario.id ||
+              formData.usuario !== usuario.usuario ||
+              formData.estado !== usuario.estado ||
+              formData.sector !== usuario.sector
+            );
+          };
+
+        const validarCampos = () => {
+            return(formData.estado.length >= 4 &&
+                formData.id.length >= 5 &&
+                formData.sector === 1000 &&
+                formData.usuario.length >= 2)
+        }
+
+        if (esEdicion) {
+            setHabilitarConfirmar(validarCampos() && existieronCambios());
+          } else {
+            setHabilitarConfirmar(validarCampos());
+          }
+
+    }, [formData, errors]);
+
+    
 
     const handleClear = () => {
         setFormData({
             id: '',
-            nombre: '',
+            usuario: '',
             estado: '',
-            sector: ''
+            sector: 0
         });
         setOpenModalUsuario(false);
         setEsEdicion(false)
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | {name: string, value: any}>) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value
         });
-
-        // Validación de 5 dígitos para el campo ID
+    
+        // Validación del campo 'id'
         if (name === 'id' && value.length < 5) {
             setErrors({
                 ...errors,
@@ -77,23 +100,25 @@ const AddUser = ({usuario}: Usuario)   =>  {
                 id: ''
             });
         }
-
-        if (name === 'nombre' && value.length < 2) {
+    
+        // Validación del campo 'usuario'
+        if (name === 'usuario' && value.length < 2) {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                nombre: 'El nombre debe contener al menos 2 caracteres.'
+                usuario: 'El nombre debe contener al menos 2 caracteres.'
             }));
         } else {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                nombre: ''
+                usuario: ''
             }));
         }
+    
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newUser: User = {
+        const newUser: Usuario = {
             ...formData,
         };
         setOpenModalUsuario(false);
@@ -101,15 +126,6 @@ const AddUser = ({usuario}: Usuario)   =>  {
     };
 
 
-    useEffect(() => {
-        const validarCampos = () => {
-            const isFormValid = Object.values(formData).every(value => value.length >= 1);
-            const hasErrors = Object.values(errors).some(error => error.length > 0);
-            return isFormValid && !hasErrors;
-        };
-
-        setHabilitarConfirmar(validarCampos());
-    }, [formData, errors]);
 
     return (
         <>
@@ -121,24 +137,22 @@ const AddUser = ({usuario}: Usuario)   =>  {
                         placeholder='Ingrese el id del Usuario'
                         className='mt-2'
                         name="id"
-                        value={formData.id} // Cambiar a formData.id
+                        value={formData.id} 
                         onChange={handleChange}
-                        required
                     />
                     {errors.id && <small className="p-error">{errors.id}</small>}
                 </div>
                 <div className="p-field">
-                    <label className='font-bold text-lg' htmlFor="nombre">Nombre:</label>
+                    <label className='font-bold text-lg' htmlFor="usuario">Usuario:</label>
                     <InputText
-                        id="nombre"
-                        name="nombre"
+                        id="usuario"
+                        name="usuario"
                         className='mt-2'
                         placeholder='Ingrese el nombre del usuario'
-                        value={formData.nombre} // Cambiar a formData.nombre
+                        value={formData.usuario} 
                         onChange={handleChange}
-                        required
                     />
-                    {errors.nombre && <small className="p-error">{errors.nombre}</small>}
+                    {errors.usuario && <small className="p-error">{errors.usuario}</small>}
                 </div>
                 <div className="p-field">
                     <label className='font-bold text-lg' htmlFor="estado">Estado:</label>
@@ -146,11 +160,10 @@ const AddUser = ({usuario}: Usuario)   =>  {
                         id="estado"
                         name="estado"
                         value={formData.estado} // Cambiar a formData.estado
-                        options={estados}
+                        options={estadosTable}
                         className='mt-2'
                         onChange={(e) => setFormData({ ...formData, estado: e.value })}
                         placeholder="Seleccionar el estado"
-                        required
                     />
                 </div>
                 <div className="p-field">
@@ -163,7 +176,6 @@ const AddUser = ({usuario}: Usuario)   =>  {
                         onChange={(e) => setFormData({ ...formData, sector: e.value })}
                         placeholder="Selecciona el sector"
                         className='mt-2'
-                        required
                     />
                 </div>
 
@@ -171,7 +183,7 @@ const AddUser = ({usuario}: Usuario)   =>  {
                     <Button
                         size='small'
                         type="submit"
-                        label={'Confirmar'}
+                        label={ esEdicion ? 'Editar' : 'Confirmar'}
                         disabled={!habilitarConfirmar}
                         style={{ maxWidth: '120px', fontWeight: 'bold' }}
                         icon="pi pi-check"
