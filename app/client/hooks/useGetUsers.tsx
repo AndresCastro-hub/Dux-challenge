@@ -1,31 +1,28 @@
 import { useState, useEffect } from 'react';
+import { Usuario } from '../types';
 
-function useGetUsers(url: string) {
+function useGetUsers(rowsPerPage:number, pageActual:number) {
     const [data, setData] = useState<Usuario[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [loadingUsuarios, setLoadingUsuarios] = useState<boolean>(true);
+    const [errorUsuarios, setErrorUsuarios] = useState<boolean>(false);
+
+    const fetchDataUsers = async () => {
+        try {
+            const response = await fetch(`https://staging.duxsoftware.com.ar/api/personal?sector=1000&_limit=${rowsPerPage}&_page=${pageActual}`);
+            const result = await response.json();
+            setData(result);
+        } catch {
+            setErrorUsuarios(true);
+        } finally {
+            setLoadingUsuarios(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error('Error al obtener los datos');
-                }
-                const result = await response.json();
-                setData(result);
-            } catch (err: any) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+        fetchDataUsers();
+    }, [rowsPerPage, pageActual]);
 
-        fetchData();
-    }, [url]);
-
-    return { data, loading };
+    return { data, loadingUsuarios, errorUsuarios, refetchUsers:fetchDataUsers }; 
 }
 
 export default useGetUsers;
