@@ -9,117 +9,20 @@ import { Usuario } from '@/app/client/types';
 import FormButtons from './Buttons/FormButtons';
 import Input from './InputText/Input';
 import DropdownInput from './Dropdown/DropdownInput';
+import useForm from './hooks/UseForm';
 
 const AddUser = ({ usuario }: { usuario: Usuario }) => {
 
-    const { setOpenModalUsuario, setEsEdicion, esEdicion } = useGlobalContext();
+    const { esEdicion } = useGlobalContext();
     const [habilitarConfirmar, setHabilitarConfirmar] = useState<boolean>(false);
-    const { createUser, loading, error } = useCreateUser();
 
-    const [formData, setFormData] = useState<Usuario>({
-        id: '',
-        usuario: '',
-        estado: '',
-        sector: 0
-    });
-
-    const [errors, setErrors] = useState({
-        id: '',
-        usuario: '',
-    });
-
-    useEffect(() => {
-        if (esEdicion) {
-            setFormData({
-                id: usuario.id,
-                usuario: usuario.usuario,
-                estado: usuario.estado,
-                sector: usuario.sector
-            })
-        }
-    }, [esEdicion])
-
-
-    useEffect(() => {
-
-        const existieronCambios = () => {
-            return (
-                formData.id !== usuario.id ||
-                formData.usuario !== usuario.usuario ||
-                formData.estado !== usuario.estado ||
-                formData.sector !== usuario.sector
-            );
-        };
-
-        const validarCampos = () => {
-            return (formData.estado.length >= 4 &&
-                formData.id.length >= 5 &&
-                formData.sector === 1000 &&
-                formData.usuario.length >= 2)
-        }
-
-        if (esEdicion) {
-            setHabilitarConfirmar(validarCampos() && existieronCambios());
-        } else {
-            setHabilitarConfirmar(validarCampos());
-        }
-
-    }, [formData, errors]);
-
-    const handleClear = () => {
-        setFormData({
-            id: '',
-            usuario: '',
-            estado: '',
-            sector: 0
-        });
-        setOpenModalUsuario(false);
-        setEsEdicion(false)
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | { name: string, value: any }>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-
-        if (name === 'id' && value.length < 5) {
-            setErrors({
-                ...errors,
-                id: 'El ID debe contener al menos 5 dígitos.'
-            });
-        } else {
-            setErrors({
-                ...errors,
-                id: ''
-            });
-        }
-
-        if (name === 'usuario' && value.length < 2) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                usuario: 'El nombre debe contener al menos 2 caracteres.'
-            }));
-        } else {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                usuario: ''
-            }));
-        }
-
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const newUser: Usuario = {
-            ...formData,
-        };
-        setOpenModalUsuario(false);
-        await createUser(newUser);
-    };
-
-
+    const { handleSubmit,
+        formData,
+        handleChange,
+        errors,
+        setFormData,
+        handleClear
+    } = useForm({ esEdicion, usuario, setHabilitarConfirmar })
 
     return (
         <>

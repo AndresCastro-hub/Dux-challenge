@@ -1,7 +1,5 @@
 import { Dropdown } from 'primereact/dropdown';
 
-
-
 interface DropdownInputProps {
     id: string;
     value: string | number;
