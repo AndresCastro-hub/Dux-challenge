@@ -1,5 +1,6 @@
 import { useGlobalContext } from "@/app/client/context/store";
 import useCreateUser from "@/app/client/hooks/useCreateUser";
+import useEditUser from "@/app/client/hooks/useEditUser";
 import { Usuario } from "@/app/client/types";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,7 @@ const useForm = ({esEdicion, usuario, setHabilitarConfirmar}: useFormProps )  =>
 
     const { setOpenModalUsuario, setEsEdicion } = useGlobalContext();
     const { createUser, loading, error } = useCreateUser();
+    const { editUser, loadingEdit, errorEdit } = useEditUser();
 
     const [formData, setFormData] = useState<Usuario>({
         id: '',
@@ -64,7 +66,12 @@ const useForm = ({esEdicion, usuario, setHabilitarConfirmar}: useFormProps )  =>
             ...formData,
         };
         setOpenModalUsuario(false);
-        await createUser(newUser);
+        
+        if(esEdicion){
+            await editUser(newUser);
+        }else{
+            await createUser(newUser);
+        }
     };
 
     const handleClear = () => {

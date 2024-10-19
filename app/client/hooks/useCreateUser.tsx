@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Usuario } from '../types';
 
 const useCreateUser = () => {
     const [loading, setLoading] = useState(false);
