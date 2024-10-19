@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Usuario } from '../types';
 
-function useGetUsers(rowsPerPage:number, pageActual:number) {
+function useGetUsers(rowsPerPage?:number, pageActual?:number) {
     const [data, setData] = useState<Usuario[]>([]);
     const [loadingUsuarios, setLoadingUsuarios] = useState<boolean>(true);
     const [errorUsuarios, setErrorUsuarios] = useState<boolean>(false);

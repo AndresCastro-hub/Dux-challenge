@@ -18,11 +18,10 @@ const Table = () => {
     const [pageActual, setPageActual] = useState<number>(1);
     const [rowsPerPage, setRowsPerPage] = useState<number>(5);
     const [selectedUsuario, setSelectedUsuario] = useState<Usuario>({ id: '', sector: 0, usuario: '', estado: '' }); 
-    const toast = useRef<Toast>(null); 
 
-    const { filters, openModalUsuario, setOpenModalUsuario, setEsEdicion } = useGlobalContext();
-    const { deleteUser, errorDeleteUsuario } = useDeleteUser();
+    const { filters, openModalUsuario, setOpenModalUsuario, setEsEdicion, toast } = useGlobalContext();
     const { data, loadingUsuarios, errorUsuarios, refetchUsers } = useGetUsers(rowsPerPage, pageActual);
+    const { deleteUser } = useDeleteUser({refetchUsers});
 
     const onPageChange = (event: { page: number; rows: number }) => {
         setPageActual(event.page + 1);
@@ -32,15 +31,7 @@ const Table = () => {
     const dataUser = data ? useApplyFilters(data, filters) : [];
 
     const handleDelete = async (rowData: Usuario) => {
-        const result = await deleteUser(rowData.id)
-        if (result) {
-            toast.current!.show({ severity: 'success', summary: 'Éxito', detail: `Se eliminó correctamente el usuario ${rowData.usuario} .`, life: 1000 });
-            refetchUsers()
-        } else if (errorDeleteUsuario) {
-            toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Fallo la petición al servidor.', life: 1000 });
-        } else {
-            toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Lo sentimos, vuelve a intentarlo.', life: 1000 });
-        }
+        await deleteUser(rowData)
     };
 
     const deleteBodyTemplate = (rowData: Usuario) => {
@@ -60,7 +51,6 @@ const Table = () => {
                 <ErrorScreen />
             ) : (
                 <>
-                    <Toast ref={toast}/>
                     <div className="card mt-4">
                         <DataTable emptyMessage='No se encontraron resultados' value={dataUser} sortMode="multiple" className='w-full'>
                             <Column field="id" header="Id" sortable></Column>
@@ -100,7 +90,11 @@ const Table = () => {
                         openModal={openModalUsuario}
                         modalProps={setEsEdicion}
                         setOpenModal={setOpenModalUsuario}
+                        refetchUsers = {refetchUsers}
                     />
+
+                    <Toast ref={toast}/>
+
                 </>
             )}
         </Suspense>

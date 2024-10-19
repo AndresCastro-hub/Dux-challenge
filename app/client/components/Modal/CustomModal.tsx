@@ -10,9 +10,10 @@ interface CustomModalProps{
     openModal: boolean,
     setOpenModal: (param: boolean) => void;
     usuario: Usuario
+    refetchUsers: () => void
 }
 
-const CustomModal = <T,>({ openModal, setOpenModal, modalProps, usuario }: CustomModalProps) => {
+const CustomModal = ({ openModal, setOpenModal, modalProps, usuario, refetchUsers }: CustomModalProps) => {
 
     const headerStyle = {margin:0, padding:0, height:'20%', width: '100%'}
     
@@ -27,7 +28,7 @@ const CustomModal = <T,>({ openModal, setOpenModal, modalProps, usuario }: Custo
                 className='w-6'
                 onHide={() => setOpenModal(false)}
             >
-                <AddUser usuario={usuario} />
+                <AddUser refetchUsers = {refetchUsers} usuario={usuario} />
             </Dialog>
         </div>
     )

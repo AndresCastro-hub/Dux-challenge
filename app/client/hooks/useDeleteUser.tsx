@@ -1,24 +1,35 @@
 import { useState } from 'react';
 import { Usuario } from '../types';
+import { useGlobalContext } from '../context/store';
 
-const useDeleteUser = () => {
-    const [errorDeleteUsuario, setErrorDeleteUsuario] = useState<boolean>(false);
+interface useDeleteProps{
+    refetchUsers: () => void
+}
 
-    const deleteUser = async (userId: string) => {
+const useDeleteUser = ({refetchUsers}: useDeleteProps) => {
+
+    const {toast} = useGlobalContext()
+
+    const deleteUser = async (rowData: Usuario) => {
         try {
-            const response = await fetch(`https://staging.duxsoftware.com.ar/api/personal/${userId}?sector=1000`, {
+            const response = await fetch(`https://staging.duxsoftware.com.ar/api/personal/${rowData.id}?sector=1000`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
-                return true; 
-            } 
+                toast.current!.show({ severity: 'success', summary: 'Exito', detail: `Se eliminó correctamente el usuario ${rowData.usuario} .`, life: 1500 });
+                refetchUsers()
+            } else{
+                toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Lo sentimos, vuelve a intentarlo.', life: 1000 });
+
+            }
         } catch {
-            setErrorDeleteUsuario(true);
+            toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Fallo la petición al servidor.', life: 1000 });
+
         } 
     };
 
-    return { deleteUser, errorDeleteUsuario };
+    return { deleteUser };
 };
 
 export default useDeleteUser;

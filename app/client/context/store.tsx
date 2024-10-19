@@ -1,6 +1,7 @@
 'use client'
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useRef, useState } from "react";
 import { Filters } from "../types";
+import { Toast } from "primereact/toast";
 
 
 
@@ -10,8 +11,9 @@ interface GlobalContextType {
     setOpenModalUsuario: Dispatch<SetStateAction<boolean>>; 
     filters: Filters;
     setFilters: Dispatch<SetStateAction<Filters>>;
-    esEdicion: boolean; // Agregar este estado
+    esEdicion: boolean; 
     setEsEdicion: Dispatch<SetStateAction<boolean>>; 
+    toast: React.RefObject<Toast>
 }
 
 const GlobalContext = createContext<GlobalContextType>({
@@ -23,8 +25,8 @@ const GlobalContext = createContext<GlobalContextType>({
     },
     setFilters: () => {},
     esEdicion: false,
-    setEsEdicion: () => false
-    
+    setEsEdicion: () => false,
+    toast: { current: null } 
 });
 
 export const GlobalContextProvider = ({children}: { children: ReactNode }) => {
@@ -34,10 +36,11 @@ export const GlobalContextProvider = ({children}: { children: ReactNode }) => {
         estado: {name: '', code: ''}
     });
     const [esEdicion, setEsEdicion] = useState(false);
+    const toast = useRef<Toast>(null);
 
     
     return (
-        <GlobalContext.Provider value={{filters, setFilters, openModalUsuario, setOpenModalUsuario, esEdicion, setEsEdicion}}>
+        <GlobalContext.Provider value={{filters, setFilters, openModalUsuario, setOpenModalUsuario, esEdicion, setEsEdicion, toast}}>
             {children}
         </GlobalContext.Provider>
     );

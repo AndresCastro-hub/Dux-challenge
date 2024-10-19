@@ -11,25 +11,33 @@ import Input from './InputText/Input';
 import DropdownInput from './Dropdown/DropdownInput';
 import useForm from './hooks/UseForm';
 
-const AddUser = ({ usuario }: { usuario: Usuario }) => {
+interface AddUserProps{
+    usuario : Usuario,
+    refetchUsers: () => void;
+}
+
+const AddUser = ({ usuario ,refetchUsers}: AddUserProps ) => {
 
     const { esEdicion } = useGlobalContext();
     const [habilitarConfirmar, setHabilitarConfirmar] = useState<boolean>(false);
 
-    const { handleSubmit,
+    const { 
         formData,
-        handleChange,
         errors,
+        handleSubmit,
+        handleChange,
         setFormData,
         handleClear
-    } = useForm({ esEdicion, usuario, setHabilitarConfirmar })
+    } = useForm({ esEdicion, usuario, setHabilitarConfirmar, refetchUsers })
 
     return (
         <>
+
             <form onSubmit={handleSubmit} className="flex flex-column gap-3 p-fluid">
                 <Input
                     label='Id:'
                     id='id'
+                    disabled={esEdicion}
                     placeholder='Ingrese el id del Usuario'
                     value={formData.id}
                     handleChange={handleChange}

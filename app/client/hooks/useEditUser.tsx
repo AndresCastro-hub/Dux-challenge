@@ -1,41 +1,36 @@
 import { useState } from "react";
 import { Usuario } from "../types";
+import { useGlobalContext } from "../context/store";
 
-const useEditUser = () => {
-
-    const [loadingEdit, setLoadingEdit] = useState<boolean>(false);
-    const [errorEdit, setErrorEdit] = useState<string | null>(null);
+const useEditUser = ({ refetchUsers }: any) => {
+    const { toast } = useGlobalContext();
 
     const editUser = async (updatedUser: Usuario) => {
-        setLoadingEdit(true);
-        setErrorEdit(null);
         try {
             const response = await fetch(`https://staging.duxsoftware.com.ar/api/personal/${updatedUser.id}?sector=1000`, {
-                method: 'PUT', 
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(updatedUser),
             });
-
+            
             if (response.ok) {
                 const data = await response.json();
+                toast.current!.show({ severity: 'success', summary: 'Éxito', detail: `El usuario ${updatedUser.usuario} se editó correctamente`, life: 1500 });
+                refetchUsers();
                 return data; 
             } else {
-                console.error('Error al editar usuario');
-                setErrorEdit('Error al editar usuario');
+                toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Error al editar el usuario', life: 1500 });
             }
-        } catch (error) {
-            console.error('Error en la petición:', error);
-            setErrorEdit('Error en la petición');
-        } finally {
-            setLoadingEdit(false);
+        } catch {
+            toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Fallo el servidor', life: 1500 });
         }
     };
 
+    return {
+        editUser
+    };
+};
 
-    return{
-        editUser, loadingEdit,errorEdit
-    }
-}
 export default useEditUser;

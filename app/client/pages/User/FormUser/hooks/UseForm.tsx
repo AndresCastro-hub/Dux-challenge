@@ -1,6 +1,7 @@
 import { useGlobalContext } from "@/app/client/context/store";
 import useCreateUser from "@/app/client/hooks/useCreateUser";
 import useEditUser from "@/app/client/hooks/useEditUser";
+import useGetUsers from "@/app/client/hooks/useGetUsers";
 import { Usuario } from "@/app/client/types";
 import { useEffect, useState } from "react";
 
@@ -8,13 +9,14 @@ interface useFormProps{
     esEdicion:boolean,
     usuario: Usuario,
     setHabilitarConfirmar: (param : boolean) => void
+    refetchUsers: () => void
 }
 
-const useForm = ({esEdicion, usuario, setHabilitarConfirmar}: useFormProps )  => {
+const useForm = ({esEdicion, usuario, setHabilitarConfirmar , refetchUsers}: useFormProps )  => {
 
     const { setOpenModalUsuario, setEsEdicion } = useGlobalContext();
-    const { createUser, loading, error } = useCreateUser();
-    const { editUser, loadingEdit, errorEdit } = useEditUser();
+    const { createUser } = useCreateUser();
+    const { editUser } = useEditUser({refetchUsers});
 
     const [formData, setFormData] = useState<Usuario>({
         id: '',
@@ -68,6 +70,7 @@ const useForm = ({esEdicion, usuario, setHabilitarConfirmar}: useFormProps )  =>
         setOpenModalUsuario(false);
         
         if(esEdicion){
+            setEsEdicion(false)
             await editUser(newUser);
         }else{
             await createUser(newUser);
