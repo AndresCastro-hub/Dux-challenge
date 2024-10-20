@@ -25,6 +25,7 @@ const Filters =  () => {
             <Dropdown
                 options={sector}
                 optionLabel="name"
+                data-testid="sector-dropdown"
                 placeholder="Seleccionar el sector"
                 className="w-4"
             />
@@ -34,6 +35,7 @@ const Filters =  () => {
                 options={estados}
                 onChange={(e) => setFilters({ ...filters, estado: e.value })}
                 optionLabel="name"
+                data-testid="estado-dropdown"
                 placeholder="Seleccionar el estado"
                 className="w-4"
             />

@@ -23,7 +23,7 @@ const useDeleteUser = ({refetchUsers}: useDeleteProps) => {
 
             }
         } catch {
-            toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Fallo la petición al servidor.', life: 1000 });
+            toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Fallo el servidor', life: 1500 });
 
         } 
     };

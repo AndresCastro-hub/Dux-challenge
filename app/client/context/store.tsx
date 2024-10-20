@@ -3,9 +3,6 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useRef,
 import { Filters } from "../types";
 import { Toast } from "primereact/toast";
 
-
-
-
 interface GlobalContextType {
     openModalUsuario: boolean;
     setOpenModalUsuario: Dispatch<SetStateAction<boolean>>; 
