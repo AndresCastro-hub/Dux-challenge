@@ -15,7 +15,7 @@ Si bien podría traer todos los datos en un componente SSR, luego recorrerlos pa
 - [Next.js](https://nextjs.org/docs)
 - [PrimeReact](https://primereact.org/)
 - [PrimeFlex](https://primeflex.org/)
-- [React Testing Library](https://testing-library.com/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
 ### Iniciar el Proyecto
     Para comenzar a trabajar en el proyecto:
