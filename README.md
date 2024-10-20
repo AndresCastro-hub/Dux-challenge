@@ -8,7 +8,7 @@ Por esta razón, en el componente Table.tsx van a encontrar que totalRecords est
 Si bien podría traer todos los datos en un componente SSR, luego recorrerlos para obtener la cantidad de registros y paginar del lado del frontend, no me parecía la solución más escalable.
 
 ### Deploy
-- [Challenge](https://dux-challenge-rn8zt8vzi-andrescastrohubs-projects.vercel.app/)
+- [Challenge](https://dux-challenge.vercel.app/)
 
 ### Tecnologías Utilizadas
 - [Figma](https://www.figma.com/design/HjDhupf4ipWvC2el9fqTse/Challange-Dux?node-id=0-1&t=xx4L25ry9xAwmTun-1)
