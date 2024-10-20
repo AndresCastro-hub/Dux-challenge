@@ -79,7 +79,7 @@ const Table = () => {
                         <Paginator
                             first={rowsPerPage * (pageActual - 1)}
                             rows={rowsPerPage}
-                            totalRecords={150} // Explicar en readme porque esta hardcodeado
+                            totalRecords={150} // En el readme explico porque esta harcodeado
                             onPageChange={onPageChange}
                             rowsPerPageOptions={[5, 10]}
                         />
