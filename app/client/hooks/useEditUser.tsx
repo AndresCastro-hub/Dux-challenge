@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Usuario } from "../types";
 import { useGlobalContext } from "../context/store";
 
-const useEditUser = ({ refetchUsers }: any) => {
+interface useEditUserProps{
+    refetchUsers: () => void
+}
+
+const useEditUser = ({ refetchUsers }: useEditUserProps) => {
     const { toast } = useGlobalContext();
 
     const editUser = async (updatedUser: Usuario) => {

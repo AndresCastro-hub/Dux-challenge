@@ -1,13 +1,17 @@
-import { useState } from 'react';
 import { Usuario } from '../types';
+import { useGlobalContext } from '../context/store';
 
-const useCreateUser = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+interface useCreateUserProps{
+    refetchUsers: () => void
+}
 
+
+const useCreateUser = ({refetchUsers}: useCreateUserProps) => {
+
+    const { toast } = useGlobalContext();
+  
     const createUser = async (newUser: Usuario) => {
-        setLoading(true);
-        setError(null);
+    
         try {
             const response = await fetch('https://staging.duxsoftware.com.ar/api/personal?sector=1000', {
                 method: 'POST',
@@ -19,20 +23,19 @@ const useCreateUser = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                return data; // Podrías devolver los datos si es necesario
+                toast.current!.show({ severity: 'success', summary: 'Éxito', detail: `El usuario ${newUser.usuario} se creo correctamente`, life: 1500 });
+                refetchUsers();
+                return data; 
             } else {
-                console.error('Error al agregar usuario');
-                setError('Error al agregar usuario');
+                toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Error al crear el usuario', life: 1500 });
             }
-        } catch (error) {
-            console.error('Error en la petición:', error);
-            setError('Error en la petición');
-        } finally {
-            setLoading(false);
-        }
+        } catch {
+            toast.current!.show({ severity: 'error', summary: 'Error', detail: 'Fallo el servidor', life: 1500 });
+          
+        } 
     };
 
-    return { createUser, loading, error };
+    return { createUser,  };
 };
 
 export default useCreateUser;

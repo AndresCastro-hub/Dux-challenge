@@ -15,7 +15,7 @@ interface useFormProps{
 const useForm = ({esEdicion, usuario, setHabilitarConfirmar , refetchUsers}: useFormProps )  => {
 
     const { setOpenModalUsuario, setEsEdicion } = useGlobalContext();
-    const { createUser } = useCreateUser();
+    const { createUser } = useCreateUser({refetchUsers});
     const { editUser } = useEditUser({refetchUsers});
 
     const [formData, setFormData] = useState<Usuario>({
@@ -54,7 +54,11 @@ const useForm = ({esEdicion, usuario, setHabilitarConfirmar , refetchUsers}: use
             case 'usuario':
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    usuario: value.length < 2 ? 'El nombre debe contener al menos 2 caracteres.' : ''
+                    usuario: value.length < 2
+                    ? 'El usuario debe contener al menos 2 caracteres.'
+                    : !/^[A-Za-z\s]+$/.test(value) 
+                    ? 'El usuario solo debe contener letras.'
+                    : ''
                 }));
                 break;
             default:
