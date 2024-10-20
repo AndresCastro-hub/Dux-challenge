@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from 'primereact/button';
 
 interface HeaderModalProps {
@@ -12,7 +11,7 @@ const HeaderModal = ({ setOpenModal, setEsEdicion }: HeaderModalProps) => {
             <h3 className="m-0">Usuario</h3>
             <div className="flex align-items-center">
                 <Button icon="pi pi-cog" className="p-button-text text-white" />
-                <Button onClick={() => {setOpenModal(false), setEsEdicion(false)}} icon="pi pi-minus" className="p-button-text text-white" />
+                <Button onClick={() => {setOpenModal(false); setEsEdicion(false)}} icon="pi pi-minus" className="p-button-text text-white" />
             </div>
         </div>
     );

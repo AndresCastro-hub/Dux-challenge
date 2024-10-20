@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Usuario } from '../types';
 import { useGlobalContext } from '../context/store';
 

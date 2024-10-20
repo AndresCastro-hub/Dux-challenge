@@ -1,7 +1,6 @@
 import { useGlobalContext } from "@/app/client/context/store";
 import useCreateUser from "@/app/client/hooks/useCreateUser";
 import useEditUser from "@/app/client/hooks/useEditUser";
-import useGetUsers from "@/app/client/hooks/useGetUsers";
 import { Usuario } from "@/app/client/types";
 import { useEffect, useState } from "react";
 
@@ -119,7 +118,7 @@ const useForm = ({esEdicion, usuario, setHabilitarConfirmar , refetchUsers}: use
                 sector: usuario.sector
             })
         }
-    }, [esEdicion])
+    }, [esEdicion , usuario])
 
     useEffect(() => {
         if (esEdicion) {

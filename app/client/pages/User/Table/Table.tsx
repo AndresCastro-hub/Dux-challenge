@@ -1,5 +1,5 @@
 'use client'
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Paginator } from 'primereact/paginator';
@@ -28,7 +28,7 @@ const Table = () => {
         setRowsPerPage(event.rows);
     };
 
-    const dataUser = data ? useApplyFilters(data, filters) : [];
+    const dataUser = useApplyFilters(data || [] , filters);
 
     const handleDelete = async (rowData: Usuario) => {
         await deleteUser(rowData)

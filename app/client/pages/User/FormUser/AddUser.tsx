@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useGlobalContext } from '@/app/client/context/store';
 import { estadosTable, sectores } from '@/app/client/constants/dataConstants';
 import { Usuario } from '@/app/client/types';

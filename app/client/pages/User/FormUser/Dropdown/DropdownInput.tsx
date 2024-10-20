@@ -4,7 +4,7 @@ interface DropdownInputProps {
     id: string;
     value: string | number;
     options: { label: string; value: string | number }[]; 
-    handleChange: (e: { value: any }) => void; 
+    handleChange: (e: { value: any }) => void;  // No me deja tiparlo con string | number
     label: string;
     placeholder:string
 }

@@ -6,8 +6,6 @@ export const useApplyFilters = (usuarios: Usuario[], filters: Filters): Usuario[
         const matchesUsuario = filters.usuario 
             ? usuario.usuario.toLowerCase().includes(filters.usuario.toLowerCase()) 
             : true;
-
-        // Comparar el código del estado
         const matchesEstado = estado.code ? usuario.estado === estado.code : true;
 
         return matchesUsuario && matchesEstado;
