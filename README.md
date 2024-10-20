@@ -15,10 +15,10 @@ Si bien podría traer todos los datos en un componente SSR, luego recorrerlos pa
 - [Next.js](https://nextjs.org/docs)
 - [PrimeReact](https://primereact.org/)
 - [PrimeFlex](https://primeflex.org/)
+- [React Testing Library](https://testing-library.com/)
 
 ### Iniciar el Proyecto
-
-Para comenzar a trabajar en el proyecto:
+    Para comenzar a trabajar en el proyecto:
 
 ```sh
     # Instalar dependencias
@@ -26,4 +26,9 @@ Para comenzar a trabajar en el proyecto:
 
     # Iniciar el servidor de desarrollo
     npm run dev
+
+    # Para correr los test
+    npm test
  ```
+
+
