@@ -21,6 +21,7 @@ const FormButtons: React.FC<FormButtonsProps> = ({ esEdicion, habilitarConfirmar
             <Button
                 size='small'
                 label="Cancelar"
+                type="button"
                 onClick={handleClear}
                 className="p-button-text"
                 icon="pi pi-times"

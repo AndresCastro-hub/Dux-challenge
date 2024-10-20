@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
-import { Button } from 'primereact/button';
-import useCreateUser from '@/app/client/hooks/useCreateUser';
 import { useGlobalContext } from '@/app/client/context/store';
 import { estadosTable, sectores } from '@/app/client/constants/dataConstants';
 import { Usuario } from '@/app/client/types';
