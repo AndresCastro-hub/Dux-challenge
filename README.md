@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#  Challenge Dux Software
 
-## Getting Started
+### Deploy
+- [Challenge](https://dux-challenge-rn8zt8vzi-andrescastrohubs-projects.vercel.app/)
 
-First, run the development server:
+### Tecnologías Utilizadas
+- [Figma](https://www.figma.com/design/HjDhupf4ipWvC2el9fqTse/Challange-Dux?node-id=0-1&t=xx4L25ry9xAwmTun-1)
+- [Next.js](https://nextjs.org/docs)
+- [PrimeReact](https://primereact.org/)
+- [PrimeFlex](https://primeflex.org/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Iniciar el Proyecto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Para comenzar a trabajar en el proyecto:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+    # Instalar dependencias
+    npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    # Iniciar el servidor de desarrollo
+    npm run dev
+ ```
 
-## Learn More
+### Aclaraciones 
+Desde mi punto de vista, es más escalable que la API que estoy consumiendo se llame a medida que cambio de página. Basado en esta decisión, decidí manejar el paginado y la cantidad de registros a mostrar del lado del cliente.
 
-To learn more about Next.js, take a look at the following resources:
+Por esta razón, en el componente Table.tsx van a encontrar que totalRecords está hardcodeado. Esto se debe a que la API devuelve solamente un array de objetos y no tengo forma de saber la cantidad de registros existentes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Si bien podría traer todos los datos en un componente SSR, luego recorrerlos para obtener la cantidad de registros y paginar del lado del frontend, no me parecía la solución más escalable.
