@@ -8,4 +8,5 @@ export interface Usuario{
 export interface Filters {
     usuario: string;
     estado: {name: string, code: 'ACTIVO' | 'INACTIVO' | '' }
+    sector: {name: string, code : number}
 } 

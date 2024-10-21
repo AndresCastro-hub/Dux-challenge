@@ -23,9 +23,11 @@ const Filters =  () => {
             </IconField>
 
             <Dropdown
+                value={filters.sector}
                 options={sector}
                 optionLabel="name"
                 data-testid="sector-dropdown"
+                onChange={(e) => setFilters({ ...filters, sector: e.value })}
                 placeholder="Seleccionar el sector"
                 className="w-4"
             />

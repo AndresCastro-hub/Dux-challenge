@@ -18,7 +18,8 @@ const GlobalContext = createContext<GlobalContextType>({
     setOpenModalUsuario: (): boolean => false,
     filters: {
         usuario: '',
-        estado: {name: '', code: ''}
+        estado: {name: '', code: ''},
+        sector: {name: '', code: 0}
     },
     setFilters: () => {},
     esEdicion: false,
@@ -30,7 +31,9 @@ export const GlobalContextProvider = ({children}: { children: ReactNode }) => {
     const [openModalUsuario, setOpenModalUsuario] = useState<boolean>(false);
     const [filters, setFilters] = useState<Filters>({
         usuario: '',
-        estado: {name: '', code: ''}
+        estado: {name: '', code: ''},
+        sector: {name: '', code: 0}
+
     });
     const [esEdicion, setEsEdicion] = useState(false);
     const toast = useRef<Toast>(null);
